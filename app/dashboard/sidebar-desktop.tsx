@@ -10,29 +10,43 @@ export function SidebarDesktop({ userName, userEmail }: { userName: string, user
   const [collapsed, setCollapsed] = useState(false)
 
   return (
-    <aside className={`border-r border-border/50 bg-card hidden md:flex flex-col sticky top-0 h-screen shrink-0 transition-all duration-300 ease-in-out ${collapsed ? "w-20" : "w-72"}`}>
-      {/* Decorative gradient */}
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+    <aside className={`
+      border-r border-border/40 bg-card/60 backdrop-blur-xl
+      hidden md:flex flex-col sticky top-0 h-screen shrink-0 
+      transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
+      ${collapsed ? "w-24" : "w-80"}
+    `}>
+      {/* Premium Gradient Backgrounds */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-primary/[0.01] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-primary/[0.05] to-transparent pointer-events-none" />
       
-      <div className={`h-20 flex items-center ${collapsed ? "justify-center px-0" : "px-6"} border-b border-border/50 relative z-10 transition-all`}>
-        <button 
-          onClick={() => setCollapsed(!collapsed)}
-          className="flex items-center group focus:outline-none"
-          title={collapsed ? "Buka Sidebar" : "Tutup Sidebar"}
-        >
-          <div className="bg-primary/10 p-1.5 rounded-lg group-hover:bg-primary/20 transition-colors">
-            <FileText className="h-5 w-5 text-primary" />
-          </div>
+      <div className={`
+        h-24 flex items-center px-6 relative z-10 
+        ${collapsed ? "justify-center" : "justify-start"}
+      `}>
+        <div className="flex items-center group cursor-pointer">
+          <button 
+            onClick={() => setCollapsed(!collapsed)}
+            className="h-11 w-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-110 active:scale-95 transition-all duration-300 shrink-0"
+            title={collapsed ? "Buka Sidebar" : "Tutup Sidebar"}
+          >
+            <FileText className="h-6 w-6 text-primary-foreground" />
+          </button>
           {!collapsed && (
-            <span className="ml-2.5 text-lg font-bold tracking-tight whitespace-nowrap overflow-hidden transition-all">CVision</span>
+            <Link href="/" className="ml-3.5 group/text">
+              <span className="text-2xl font-black tracking-tighter text-foreground group-hover/text:text-primary transition-colors">
+                CVision
+              </span>
+            </Link>
           )}
-        </button>
+        </div>
       </div>
       
       <div className="flex-1 relative z-10 flex flex-col overflow-hidden">
         <DashboardNav collapsed={collapsed} userName={userName} userEmail={userEmail} />
       </div>
 
+      <div className="h-8 pointer-events-none bg-gradient-to-t from-card to-transparent absolute bottom-0 w-full z-20" />
     </aside>
   )
 }

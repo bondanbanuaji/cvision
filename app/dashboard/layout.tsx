@@ -29,33 +29,38 @@ export default async function DashboardLayout({
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden relative">
         {/* Mobile Header */}
-        <header className="h-16 flex items-center px-4 border-b md:hidden bg-card/80 backdrop-blur-md sticky top-0 z-50">
-          <Sheet>
-            <SheetTrigger render={
-              <Button variant="ghost" className="mr-3 w-10 h-10 p-0 flex items-center justify-center rounded-full">
-                <Menu className="!h-6 !w-6" />
+        <header className="h-16 flex items-center justify-between px-6 border-b border-border/40 md:hidden bg-background/60 backdrop-blur-xl sticky top-0 z-50">
+          <div className="flex items-center gap-3">
+            <Sheet>
+              <SheetTrigger className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all group">
+                <FileText className="h-5 w-5 transition-transform group-hover:scale-110" />
                 <span className="sr-only">Buka menu</span>
-              </Button>
-            } />
-            <SheetContent side="left" className="w-72 p-0 flex flex-col">
-              <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
-              <SheetDescription className="sr-only">Navigasi halaman dashboard</SheetDescription>
-              <div className="h-20 flex items-center px-6 border-b border-border/50 relative z-10">
-                <Link className="flex items-center group" href="/">
-                  <div className="bg-primary/10 p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
-                    <FileText className="h-6 w-6 text-primary" />
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] p-0 border-r border-border/40 bg-card/95 backdrop-blur-2xl flex flex-col">
+                <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
+                <SheetDescription className="sr-only">Navigasi halaman dashboard</SheetDescription>
+                <div className="h-24 flex items-center px-8 border-b border-border/40">
+                  <div className="flex items-center">
+                    <div className="bg-primary h-10 w-10 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                      <FileText className="h-5 w-5 text-primary-foreground" />
+                    </div>
+                    <span className="ml-3 text-xl font-black tracking-tighter">CVision</span>
                   </div>
-                  <span className="ml-3 text-xl font-bold tracking-tight">CVision</span>
-                </Link>
-              </div>
-              <div className="flex-1 flex flex-col">
-                <DashboardNav userName={userName} userEmail={userEmail} />
-              </div>
-            </SheetContent>
-          </Sheet>
-          <Link className="flex items-center" href="/">
-            <span className="text-lg font-bold tracking-tight">CVision</span>
-          </Link>
+                </div>
+                <div className="flex-1 flex flex-col bg-transparent">
+                  <DashboardNav userName={userName} userEmail={userEmail} />
+                </div>
+              </SheetContent>
+            </Sheet>
+            
+            <Link className="flex items-center group" href="/">
+              <span className="text-lg font-black tracking-tighter group-hover:text-primary transition-colors">CVision</span>
+            </Link>
+          </div>
+
+          <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-xs shadow-md">
+            {userName.charAt(0).toUpperCase()}
+          </div>
         </header>
 
         <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
