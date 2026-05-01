@@ -10,7 +10,7 @@ export function SidebarDesktop({ userName, userEmail }: { userName: string, user
   const [collapsed, setCollapsed] = useState(false)
 
   return (
-    <aside className={`border-r border-border/50 bg-card hidden md:flex flex-col relative transition-all duration-300 ease-in-out ${collapsed ? "w-20" : "w-72"}`}>
+    <aside className={`border-r border-border/50 bg-card hidden md:flex flex-col sticky top-0 h-screen shrink-0 transition-all duration-300 ease-in-out ${collapsed ? "w-20" : "w-72"}`}>
       {/* Decorative gradient */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       

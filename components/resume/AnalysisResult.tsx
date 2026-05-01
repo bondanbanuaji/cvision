@@ -4,12 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, XCircle, AlertTriangle, Lightbulb, Trophy, Target, FileSignature, Sparkles } from "lucide-react"
+import { RewriteAssistant } from "@/components/resume/RewriteAssistant"
 
 export function AnalysisResult({ data }: { data: any }) {
   const result = data?.result ?? data
   if (!result || !result.score) return null
 
-  const { score, summary, strengths, weaknesses, suggestions, keywords } = result
+  const { score, summary, strengths, weaknesses, criticalErrors, suggestions, keywords } = result
 
   // Motivasi berdasarkan skor keseluruhan
   let motivationMessage = ""
@@ -60,8 +61,8 @@ export function AnalysisResult({ data }: { data: any }) {
           <TabsTrigger value="keywords" className="rounded-xl font-medium data-[state=active]:shadow-sm">Cek Kata Kunci</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="feedback" className="space-y-4 mt-6 animate-slide-up">
-          <div className="grid gap-6 md:grid-cols-2">
+        <TabsContent value="feedback" className="mt-6 animate-slide-up">
+          <div className="grid gap-6 lg:grid-cols-3">
             <Card className="rounded-3xl border-green-200/50 shadow-sm">
               <CardHeader className="pb-4 bg-green-50/50 dark:bg-green-950/20 rounded-t-3xl border-b border-green-100 dark:border-green-900/30">
                 <CardTitle className="text-green-600 flex items-center gap-2">
@@ -99,6 +100,35 @@ export function AnalysisResult({ data }: { data: any }) {
                 </ul>
               </CardContent>
             </Card>
+
+            {(criticalErrors && criticalErrors.length > 0) ? (
+              <Card className="rounded-3xl border-red-200/50 shadow-sm">
+                <CardHeader className="pb-4 bg-red-50/50 dark:bg-red-950/20 rounded-t-3xl border-b border-red-100 dark:border-red-900/30">
+                  <CardTitle className="text-red-600 flex items-center gap-2">
+                    <XCircle className="h-5 w-5" /> Kesalahan Fatal
+                  </CardTitle>
+                  <CardDescription>Red flags yang membuat CV langsung dibuang.</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <ul className="space-y-4">
+                    {criticalErrors.map((item: string, i: number) => (
+                      <li key={i} className="flex gap-3 text-sm">
+                        <div className="h-1.5 w-1.5 rounded-full bg-red-500 mt-2 shrink-0" />
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="rounded-3xl border-green-200/50 shadow-sm opacity-80 flex flex-col items-center justify-center text-center p-6">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
+                  <CheckCircle2 className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="font-bold text-foreground">Bebas Red Flag!</h3>
+                <p className="text-sm text-muted-foreground mt-1">Tidak ditemukan kesalahan fatal pada CV kamu.</p>
+              </Card>
+            )}
           </div>
         </TabsContent>
 
@@ -116,9 +146,20 @@ export function AnalysisResult({ data }: { data: any }) {
                   <div className="bg-primary/10 text-primary font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0">
                     {i+1}
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 flex-1">
                     <h4 className="font-bold text-base text-foreground">Bagian: {sug.section}</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">{sug.advice}</p>
+                    <div className="pt-2">
+                      <RewriteAssistant
+                        advice={`Bagian: ${sug.section}. ${sug.advice}`}
+                        trigger={
+                          <button className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-full transition-all cursor-pointer">
+                            <Sparkles className="h-3 w-3" />
+                            Perbaiki Kalimat Ini
+                          </button>
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

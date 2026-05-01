@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     // 2. Parse form data
     const formData = await req.formData()
     const file = formData.get("file") as File | null
-    const jobTitle = (formData.get("jobTitle") as string) || undefined
+    const jobDescription = (formData.get("jobDescription") as string) || undefined
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     console.log(`[Analyze] Extracted ${rawText.length} characters from PDF`)
 
     // 4. Analyze with Gemini AI
-    const aiResult = await analyzeResume(rawText, jobTitle)
+    const aiResult = await analyzeResume(rawText, jobDescription)
     console.log("[Analyze] AI analysis complete, score:", aiResult?.score?.overall)
 
     // 5. Save to DB — Prisma Json field needs a plain serializable value

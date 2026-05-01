@@ -2,7 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { FileText, Menu } from "lucide-react"
 import { auth } from "@/auth"
-import { DashboardNav } from "./nav"
+import { DashboardNav } from "@/app/dashboard/nav"
 import { SidebarDesktop } from "./sidebar-desktop"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
@@ -31,10 +31,12 @@ export default async function DashboardLayout({
         {/* Mobile Header */}
         <header className="h-16 flex items-center px-4 border-b md:hidden bg-card/80 backdrop-blur-md sticky top-0 z-50">
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" className="mr-2" />}>
-                <Menu className="h-5 w-5" />
+            <SheetTrigger render={
+              <Button variant="ghost" className="mr-3 w-10 h-10 p-0 flex items-center justify-center rounded-full">
+                <Menu className="!h-6 !w-6" />
                 <span className="sr-only">Buka menu</span>
-            </SheetTrigger>
+              </Button>
+            } />
             <SheetContent side="left" className="w-72 p-0 flex flex-col">
               <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
               <SheetDescription className="sr-only">Navigasi halaman dashboard</SheetDescription>

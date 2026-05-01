@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 
 export function UploadZone({ onAnalysisComplete }: { onAnalysisComplete: (data: any) => void }) {
   const { isAnalyzing, setIsAnalyzing } = useResumeStore()
-  const [jobTitle, setJobTitle] = useState("")
+  const [jobDescription, setJobDescription] = useState("")
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -30,8 +30,8 @@ export function UploadZone({ onAnalysisComplete }: { onAnalysisComplete: (data: 
 
     const formData = new FormData()
     formData.append("file", file)
-    if (jobTitle) {
-      formData.append("jobTitle", jobTitle)
+    if (jobDescription) {
+      formData.append("jobDescription", jobDescription)
     }
 
     try {
@@ -53,7 +53,7 @@ export function UploadZone({ onAnalysisComplete }: { onAnalysisComplete: (data: 
     } finally {
       setIsAnalyzing(false)
     }
-  }, [jobTitle, onAnalysisComplete, setIsAnalyzing])
+  }, [jobDescription, onAnalysisComplete, setIsAnalyzing])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -73,19 +73,19 @@ export function UploadZone({ onAnalysisComplete }: { onAnalysisComplete: (data: 
       </div>
 
       <div className="space-y-3 bg-card p-6 rounded-2xl border shadow-sm">
-        <label htmlFor="jobTitle" className="text-sm font-bold text-foreground flex items-center gap-2">
-          Posisi Pekerjaan yang Dilamar <span className="text-muted-foreground font-normal">(Opsional)</span>
+        <label htmlFor="jobDescription" className="text-sm font-bold text-foreground flex items-center gap-2">
+          Paste Deskripsi Lowongan Kerja <span className="text-muted-foreground font-normal">(Opsional)</span>
         </label>
         <p className="text-sm text-muted-foreground mb-2">
-          AI akan membandingkan CV kamu dengan posisi ini untuk melihat kecocokan kata kunci.
+          AI akan membandingkan isi CV kamu dengan detail kualifikasi di deskripsi pekerjaan ini untuk melihat kecocokan.
         </p>
-        <input 
-          id="jobTitle"
-          type="text" 
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-          placeholder="contoh: Software Engineer, Digital Marketing, Akuntan..."
-          className="flex h-12 w-full rounded-xl border border-input bg-background px-4 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 transition-all shadow-sm"
+        <textarea 
+          id="jobDescription"
+          value={jobDescription}
+          onChange={(e) => setJobDescription(e.target.value)}
+          placeholder="contoh: Kami mencari Software Engineer dengan pengalaman React. Tanggung jawab utama..."
+          rows={4}
+          className="flex w-full rounded-xl border border-input bg-background px-4 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 transition-all shadow-sm resize-y"
           disabled={isAnalyzing}
         />
       </div>

@@ -5,6 +5,7 @@ import { UploadZone } from "@/components/resume/UploadZone"
 import { AnalysisResult } from "@/components/resume/AnalysisResult"
 import { useResumeStore } from "@/lib/store/useResumeStore"
 import { FileUp } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function DashboardPage() {
   const [analysisData, setAnalysisData] = useState<any>(null)
@@ -28,18 +29,30 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <UploadZone onAnalysisComplete={(data) => setAnalysisData(data)} />
-
-      {analysisData && !isAnalyzing && (
-        <div className="animate-slide-up pt-4">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-              Langkah 2: Hasil & Perbaikan
+      {!analysisData ? (
+        <UploadZone onAnalysisComplete={(data) => setAnalysisData(data)} />
+      ) : (
+        !isAnalyzing && (
+          <div className="animate-slide-up">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div className="flex items-center gap-3">
+                <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                  Langkah 2: Hasil & Perbaikan
+                </div>
+                <div className="hidden sm:block h-px bg-border flex-1 w-32" />
+              </div>
+              <Button 
+                onClick={() => setAnalysisData(null)}
+                variant="outline"
+                className="rounded-full shadow-sm hover:bg-primary/5 hover:text-primary transition-all"
+              >
+                <FileUp className="mr-2 h-4 w-4" />
+                Scan CV Lainnya
+              </Button>
             </div>
-            <div className="h-px bg-border flex-1" />
+            <AnalysisResult data={analysisData} />
           </div>
-          <AnalysisResult data={analysisData} />
-        </div>
+        )
       )}
     </div>
   )
