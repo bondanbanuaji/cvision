@@ -9,7 +9,7 @@ if (!process.env.GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "dummy-key-for-build")
 
 // Model fallback chain
-const MODEL_FALLBACK_CHAIN = (process.env.GEMINI_MODEL || "gemini-2.5-flash,gemini-2.0-flash,gemini-flash-latest")
+const MODEL_FALLBACK_CHAIN = (process.env.GEMINI_MODEL || "gemini-1.5-flash,gemini-1.5-pro,gemini-2.0-flash-exp")
   .split(",")
   .map((m) => m.trim())
   .filter(Boolean)
@@ -57,6 +57,13 @@ ${targetJobContext}
 
 Kembalikan HANYA format JSON murni (tanpa markdown, tanpa penjelasan di luar JSON) dengan struktur persis seperti ini:
 {
+  "personalInfo": {
+    "fullName": "<Nama lengkap kandidat, atau '-' jika tidak ditemukan>",
+    "jobTitle": "<Posisi/Jabatan profesional, atau '-' jika tidak ditemukan>",
+    "email": "<Alamat email, atau '-' jika tidak ditemukan>",
+    "phone": "<Nomor telepon, atau '-' jika tidak ditemukan>",
+    "location": "<Kota/Negara domisili, atau '-' jika tidak ditemukan>"
+  },
   "score": {
     "overall": <angka 0-100, mewakili kualitas keseluruhan CV>,
     "impact": <angka 0-100, seberapa kuat dampaknya/kesan pertama>,
@@ -104,16 +111,18 @@ ${resumeText}`
         return parsed
       } catch (error: any) {
         const is429 = error?.status === 429
+        const is503 = error?.status === 503
+        const isRetryable = is429 || is503
 
-        if (is429 && attempt < MAX_RETRIES) {
-          const waitMs = getRetryDelayMs(error)
-          console.warn(`[Gemini] Rate limited on "${modelName}". Waiting ${waitMs / 1000}s...`)
+        if (isRetryable && attempt < MAX_RETRIES) {
+          const waitMs = is503 ? 5000 : getRetryDelayMs(error)
+          console.warn(`[Gemini] ${is503 ? 'Service busy (503)' : 'Rate limited (429)'} on "${modelName}". Waiting ${waitMs / 1000}s...`)
           await sleep(waitMs)
           continue
         }
 
-        if (is429) {
-          console.warn(`[Gemini] Quota exhausted on "${modelName}", trying next model...`)
+        if (isRetryable) {
+          console.warn(`[Gemini] ${is503 ? 'Service unavailable' : 'Quota exhausted'} on "${modelName}", trying next model...`)
           break 
         }
 
@@ -165,8 +174,9 @@ Kembalikan HANYA kalimat hasil perbaikan tanpa ada tambahan markdown, tanpa tand
       return text
     } catch (error: any) {
       const is429 = error?.status === 429
-      if (is429) {
-        console.warn(`[Gemini Rewrite] Quota exhausted on "${modelName}", trying next...`)
+      const is503 = error?.status === 503
+      if (is429 || is503) {
+        console.warn(`[Gemini Rewrite] ${is503 ? 'Service busy' : 'Quota exhausted'} on "${modelName}", trying next...`)
         continue
       }
       console.error("[Gemini Rewrite] Error:", error.message)

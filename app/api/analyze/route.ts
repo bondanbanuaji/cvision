@@ -15,7 +15,11 @@ export async function POST(req: Request) {
     // 2. Parse form data
     const formData = await req.formData()
     const file = formData.get("file") as File | null
-    const jobDescription = (formData.get("jobDescription") as string) || undefined
+    const jobDescription = (formData.get("jobDescription") as string) || ""
+
+    if (!jobDescription || jobDescription.trim() === "") {
+      return NextResponse.json({ error: "Deskripsi lowongan kerja wajib diisi" }, { status: 400 })
+    }
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
@@ -47,6 +51,7 @@ export async function POST(req: Request) {
         fileName: file.name,
         fileSize: file.size,
         rawText,
+        jobDescription,
         // Serialize + parse to ensure it's a plain JSON-safe object
         result: JSON.parse(JSON.stringify(aiResult)),
       },

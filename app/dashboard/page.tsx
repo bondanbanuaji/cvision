@@ -20,7 +20,7 @@ export default function DashboardPage() {
         <div className="relative z-10">
           <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-4">
             <FileUp className="mr-2 h-4 w-4" />
-            Langkah 1: Upload CV
+            Mulai Analisis
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Analisis CV Kamu</h1>
           <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
@@ -37,7 +37,7 @@ export default function DashboardPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
                 <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-                  Langkah 2: Hasil & Perbaikan
+                  Hasil & Perbaikan
                 </div>
                 <div className="hidden sm:block h-px bg-border flex-1 w-32" />
               </div>

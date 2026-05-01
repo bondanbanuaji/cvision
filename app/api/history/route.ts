@@ -23,6 +23,7 @@ export async function GET() {
         fileSize: true,
         createdAt: true,
         result: true,
+        jobDescription: true,
       }
     })
 

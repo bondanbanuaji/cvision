@@ -21,9 +21,10 @@ model Analysis {
   userId    String
   fileName  String
   fileSize  Int
-  rawText   String   @db.LongText
-  result    Json
-  createdAt DateTime @default(now())
+  rawText        String   @db.LongText
+  jobDescription String?  @db.Text
+  result         Json
+  createdAt      DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

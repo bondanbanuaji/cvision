@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Loader2, Sparkles, Copy, CheckCircle2 } from "lucide-react"
+import { Loader2, Wand2, Copy, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 
 interface RewriteAssistantProps {
@@ -62,7 +62,7 @@ export function RewriteAssistant({ advice, trigger }: RewriteAssistantProps) {
       <DialogTrigger
         render={trigger || (
           <Button variant="outline" size="sm" className="gap-2">
-            <Sparkles className="h-4 w-4 text-primary" />
+            <Wand2 className="h-4 w-4 text-primary" />
             Perbaiki Kalimat
           </Button>
         )}
@@ -71,7 +71,7 @@ export function RewriteAssistant({ advice, trigger }: RewriteAssistantProps) {
       <DialogContent className="sm:max-w-[500px] rounded-3xl border-primary/20">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <Wand2 className="h-5 w-5 text-primary" />
             AI Rewrite Assistant
           </DialogTitle>
           <DialogDescription>
@@ -109,7 +109,7 @@ export function RewriteAssistant({ advice, trigger }: RewriteAssistantProps) {
               </>
             ) : (
               <>
-                <Sparkles className="mr-2 h-4 w-4" /> Generate Kalimat Profesional
+                <Wand2 className="mr-2 h-4 w-4" /> Generate Kalimat Profesional
               </>
             )}
           </Button>

@@ -6,8 +6,7 @@ import { id } from "date-fns/locale"
 import { FileText, ChevronRight, History as HistoryIcon, Trash2, Loader2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
-import { AnalysisResult } from "@/components/resume/AnalysisResult"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 
@@ -103,39 +102,22 @@ export default function HistoryPage() {
             return (
               <Card key={analysis.id} className="hover:bg-muted/50 hover:border-primary/30 hover:shadow-md transition-all rounded-2xl overflow-hidden group">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 gap-4">
-                  <Dialog>
-                    <DialogTrigger render={<button type="button" className="flex-1 flex items-center gap-4 text-left outline-none cursor-pointer" />}>
-                        <div className="p-4 bg-primary/10 rounded-2xl group-hover:bg-primary/20 transition-colors">
-                          <FileText className="h-8 w-8 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">{analysis.fileName}</h3>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-sm text-muted-foreground bg-background px-2 py-0.5 rounded-md border shadow-sm">
-                              {format(new Date(analysis.createdAt), "dd MMM yyyy • HH:mm", { locale: id })}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                              {(analysis.fileSize / 1024).toFixed(1)} KB
-                            </span>
-                          </div>
-                        </div>
-                    </DialogTrigger>
-                    
-                    <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl p-0 gap-0">
-                      <DialogHeader className="p-6 border-b sticky top-0 bg-background/80 backdrop-blur-xl z-10 rounded-t-3xl">
-                        <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-                          <FileText className="h-6 w-6 text-primary" />
-                          Hasil Analisis: {analysis.fileName}
-                        </DialogTitle>
-                        <DialogDescription>
-                          Dianalisis pada {format(new Date(analysis.createdAt), "dd MMMM yyyy, HH:mm", { locale: id })}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="p-6 bg-muted/10">
-                        <AnalysisResult data={analysis} />
+                  <Link href={`/dashboard/history/${analysis.id}`} className="flex-1 flex items-center gap-4 text-left outline-none cursor-pointer">
+                    <div className="p-4 bg-primary/10 rounded-2xl group-hover:bg-primary/20 transition-colors">
+                      <FileText className="h-8 w-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">{analysis.fileName}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-sm text-muted-foreground bg-background px-2 py-0.5 rounded-md border shadow-sm">
+                          {format(new Date(analysis.createdAt), "dd MMM yyyy • HH:mm", { locale: id })}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {(analysis.fileSize / 1024).toFixed(1)} KB
+                        </span>
                       </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </Link>
 
                   <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-4 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-border/50">
                     <div className="text-left sm:text-right">
