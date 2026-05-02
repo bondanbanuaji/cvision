@@ -7,7 +7,7 @@ import { DashboardNav } from "./nav"
 import { Button } from "@/components/ui/button"
 
 export function SidebarDesktop({ userName, userEmail }: { userName: string, userEmail: string }) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
 
   return (
     <aside className={`
