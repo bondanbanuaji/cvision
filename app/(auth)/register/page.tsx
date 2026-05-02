@@ -53,7 +53,7 @@ export default function RegisterPage() {
         <p className="text-muted-foreground">Lengkapi data di bawah ini untuk memulai.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+      <form method="POST" onSubmit={handleSubmit} className="space-y-6 mt-8">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nama Lengkap</Label>

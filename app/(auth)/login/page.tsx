@@ -64,7 +64,7 @@ function LoginForm() {
         <p className="text-muted-foreground">Masukkan email dan kata sandi untuk masuk ke akun kamu.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+      <form method="POST" onSubmit={handleSubmit} className="space-y-6 mt-8">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Alamat Email</Label>
