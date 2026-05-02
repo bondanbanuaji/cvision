@@ -9,7 +9,7 @@ const AUTH_ROUTES = ["/login", "/register"]
 // The landing page — redirect to dashboard if logged in
 const PUBLIC_HOME = "/"
 
-export default function proxy(req: NextRequest) {
+export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // NextAuth.js v5 stores session as a JWT cookie
@@ -53,6 +53,7 @@ export const config = {
      * - _next/image (image optimization)
      * - favicon.ico, sitemap.xml, robots.txt
      * - public assets (images, etc.)
+     * - static assets
      */
     "/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.png$|.*\\.svg$|.*\\.jpg$|.*\\.ico$).*)",
   ],
